@@ -19,7 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 
-public class Main extends Application {
+public class Tool extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -87,7 +87,7 @@ public class Main extends Application {
 //        ResultRecorder recorder = listener.recorder;
 //        System.out.println(recorder);
 		System.out.println(12313);
-		Application.launch(Main.class,args);
+		Application.launch(Tool.class,args);
 //		launch(args);
 	}
 	
@@ -96,6 +96,6 @@ public class Main extends Application {
 	}
 
 	public static void setTestDataCollection(Collection<Object[]> testDataCollection) {
-		Main.testDataCollection = testDataCollection;
+		Tool.testDataCollection = testDataCollection;
 	}
 }

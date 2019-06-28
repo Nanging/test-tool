@@ -103,11 +103,11 @@ public class Controller {
 				switch (arg2) {
 				case "testcase1":
 					System.out.println("testcase1");
-			        Main.initTestData("", 1);
+			        Tool.initTestData("", 1);
 					break;
 				case "testcase2":
 					System.out.println("testcase2");
-			        Main.initTestData("", 2);   	
+			        Tool.initTestData("", 2);   	
 					break;
 				default:
 					break;

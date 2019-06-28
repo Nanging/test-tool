@@ -11,14 +11,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import application.Main;
+import application.Tool;
 
 @RunWith(Parameterized.class)
 public class AddTest {
 
     @Parameters
     public static Collection<Object[]> initTestData(){
-    	return Main.getTestDataCollection();
+    	return Tool.getTestDataCollection();
     }
 	
     private int a;
