@@ -2,7 +2,10 @@ package application;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -26,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import testcase.AddTest;
+import testcase.TestCase;
 
 public class Controller {
 	@FXML  
@@ -50,23 +54,23 @@ public class Controller {
     private File result;  
     
     public Controller() {
-    	ObservableList<String> list = FXCollections.observableArrayList("one",
-    	        "two");
-    	    System.out.println(list);
-
-    	    list.addListener(Controller::onChanged);
-
-    	    list.addAll("A", "B");
-    	    System.out.println("After addAll() - list: " + list);
-
-    	    list.remove(1, 3);
-    	    System.out.println("After remove() - list: " + list);
-
-    	    list.retainAll("one");
-    	    System.out.println("After retainAll() - list: " + list);
-
-    	    list.set(0, "ONE");
-    	    System.out.println("After set() - list: " + list);
+//    	ObservableList<String> list = FXCollections.observableArrayList("one",
+//    	        "two");
+//    	    System.out.println(list);
+//
+//    	    list.addListener(Controller::onChanged);
+//
+//    	    list.addAll("A", "B");
+//    	    System.out.println("After addAll() - list: " + list);
+//
+//    	    list.remove(1, 3);
+//    	    System.out.println("After remove() - list: " + list);
+//
+//    	    list.retainAll("one");
+//    	    System.out.println("After retainAll() - list: " + list);
+//
+//    	    list.set(0, "ONE");
+//    	    System.out.println("After set() - list: " + list);
 //    	dropdown.setItems(list);
 		// TODO Auto-generated constructor stub
 	}
@@ -77,8 +81,7 @@ public class Controller {
     	ObservableList<String> list = FXCollections.observableArrayList("test",
     	        "two");
     	fileContent.setEditable(false);
-    	System.out.println("123 :"+projects.getValue());
-    	projects.getItems().setAll(list);
+//    	projects.getItems().setAll(list);
     	projects.setItems(list);
     	projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -86,12 +89,58 @@ public class Controller {
 				// TODO Auto-generated method stub
 				System.out.println("old value : "+arg1);
 				System.out.println("new value : "+arg2);
+				switch (arg2) {
+				case "test":
+					ObservableList<String> classList = FXCollections.observableArrayList("TestClase");
+					classes.setItems(classList);
+					break;
+				default:
+					classes.setItems(FXCollections.observableArrayList());
+					methods.setItems(FXCollections.observableArrayList());
+					testcases.setItems(FXCollections.observableArrayList());
+					break;
+				}
 				
 			}
 		});
-    	ObservableList<String> testList = FXCollections.observableArrayList("testcase1",
-    	        "testcase2");
-    	testcases.setItems(testList);
+    	classes.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				// TODO Auto-generated method stub
+				System.out.println("old value : "+arg1);
+				System.out.println("new value : "+arg2);
+				switch (arg2) {
+				case "TestClase":
+					ObservableList<String> methodList = FXCollections.observableArrayList("add");
+					methods.setItems(methodList);
+					break;
+				default:
+					methods.setItems(FXCollections.observableArrayList());
+					testcases.setItems(FXCollections.observableArrayList());
+					break;
+				}
+				
+			}
+		});
+    	methods.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				// TODO Auto-generated method stub
+				System.out.println("old value : "+arg1);
+				System.out.println("new value : "+arg2);
+				switch (arg2) {
+				case "add":
+					ObservableList<String> methodList = FXCollections.observableArrayList("testcase1",
+			    	        "testcase2");
+					testcases.setItems(methodList);
+					break;
+				default:
+					testcases.setItems(FXCollections.observableArrayList());
+					break;
+				}
+				
+			}
+		});
     	testcases.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
@@ -99,15 +148,16 @@ public class Controller {
 				JUnitCore runner = new JUnitCore();
 		        ExecutionListener listener = new ExecutionListener();
 		        runner.addListener(listener);
-		       
+		        Collection<Object[]> testPara;
 				switch (arg2) {
 				case "testcase1":
 					System.out.println("testcase1");
-			        Tool.initTestData("", 1);
+					Tool.setTestDataCollection(TestCase.getParament(0));
+					showParameter(TestCase.getParamentWithName(0));
 					break;
 				case "testcase2":
 					System.out.println("testcase2");
-			        Tool.initTestData("", 2);   	
+					Tool.setTestDataCollection(TestCase.getAll());
 					break;
 				default:
 					break;
@@ -156,7 +206,25 @@ public class Controller {
             FileTools.writeFile(result, fileContent.getText());  
         }  
     }  
-      
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void showParameter(Collection<Object[]> testDataCollection) {
+    	ObservableList<TableColumn> observableList = parameterTable.getColumns();
+    	observableList.get(0).setCellValueFactory(new PropertyValueFactory<Parameter, String>("id"));
+    	observableList.get(1).setCellValueFactory(new PropertyValueFactory<Parameter, String>("name"));
+    	observableList.get(2).setCellValueFactory(new PropertyValueFactory<Parameter, String>("type"));
+    	observableList.get(3).setCellValueFactory(new PropertyValueFactory<Parameter, String>("value"));
+    	ObservableList<Parameter> data = FXCollections.observableArrayList();
+    	int i = 0;
+//    	List<Object[]> test = (List<Object[]>) testDataCollection;
+    	for (Object[] para : testDataCollection) {
+    		i++;
+    		data.add(new Parameter(""+i,para[0].toString(), para[1].getClass().getSimpleName(), para[1].toString()));
+		}
+    	parameterTable.setItems(data);
+    	parameterTable.setMinHeight(20 + 27*data.size());
+    	parameterTable.setMaxHeight(900);
+    	parameterTable.setVisible(true);
+    }
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML  
     private void onMenuClose(ActionEvent event) {  
@@ -164,7 +232,7 @@ public class Controller {
     	observableList.get(0).setCellValueFactory(new PropertyValueFactory<Parameter, String>("id"));
     	observableList.get(1).setCellValueFactory(new PropertyValueFactory<Parameter, String>("name"));
     	observableList.get(2).setCellValueFactory(new PropertyValueFactory<Parameter, String>("type"));
-    	observableList.get(2).setCellValueFactory(new PropertyValueFactory<Parameter, String>("value"));
+    	observableList.get(3).setCellValueFactory(new PropertyValueFactory<Parameter, String>("value"));
     	ObservableList<Parameter> data = FXCollections.observableArrayList(
     			new Parameter("1","a", "int", "5"),
     			new Parameter("2","a", "long", "999"),
@@ -179,7 +247,6 @@ public class Controller {
     			new Parameter("2", "a","long", "999"),
     			new Parameter("3","a", "string", "abc")
     	        );
-    	data.size();
     	parameterTable.setItems(data);
     	parameterTable.setMinHeight(20 + 27*data.size());
     	parameterTable.setMaxHeight(900);

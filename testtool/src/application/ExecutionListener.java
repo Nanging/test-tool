@@ -52,6 +52,7 @@ public class ExecutionListener extends RunListener {
     public void testFinished(Description description) throws Exception {
     	record.append("Test Class:"+description.getTestClass().getSimpleName()+" - Test Method:"+description.getMethodName() + " end"+"\n");
         System.out.println("Test Class:"+description.getTestClass().getSimpleName()+" - Test Method:"+description.getMethodName() + " end");
+        
         if (methodInfo.getError_msg() == null)
             methodInfo.setResult(true);
         list.add(methodInfo);

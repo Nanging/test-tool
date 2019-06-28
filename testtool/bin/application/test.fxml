@@ -37,13 +37,13 @@
             </ContextMenu>
          </contextMenu>
       </TextArea>
-      <ComboBox fx:id="projects" layoutX="14.0" layoutY="61.0" prefWidth="150.0" />
-      <ComboBox fx:id="classes" layoutX="11.0" layoutY="121.0" prefHeight="30.0" prefWidth="156.0" />
-      <ComboBox fx:id="methods" layoutX="198.0" layoutY="120.0" prefHeight="30.0" prefWidth="242.0" />
+      <ComboBox fx:id="projects" layoutX="14.0" layoutY="61.0" prefHeight="30.0" prefWidth="150.0" />
+      <ComboBox fx:id="classes" layoutX="14.0" layoutY="120.0" prefHeight="30.0" prefWidth="150.0" />
+      <ComboBox fx:id="methods" layoutX="198.0" layoutY="120.0" prefHeight="30.0" prefWidth="250.0" />
       <Text layoutX="14.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class" />
       <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Project" />
       <Text layoutX="198.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Method" />
-      <ComboBox fx:id="testcases" layoutX="14.0" layoutY="187.0" prefWidth="150.0" />
+      <ComboBox fx:id="testcases" layoutX="14.0" layoutY="187.0" prefHeight="30.0" prefWidth="150.0" />
       <Text layoutX="18.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TestCase" />
       <TableView fx:id="parameterTable" layoutX="18.0" layoutY="227.0" maxHeight="1.7976931348623157E308" prefHeight="104.0" prefWidth="435.0" visible="false">
         <columns>

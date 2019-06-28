@@ -31,7 +31,7 @@ public class Tool extends Application {
 			Scene scene = new Scene(root,950,620);
 			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("JavaFx记事本");
+			primaryStage.setTitle("Java Test Tool");
 			Controller controller =  fxmlLoader.getController();
 			controller.init();
 			primaryStage.show();
@@ -49,7 +49,7 @@ public class Tool extends Application {
 	private static Collection<Object[]> testDataCollection;
 	
 	
-	public static void initTestData(String filename, int caseid) {
+	public static Collection<Object[]> initTestData(String filename, int caseid) {
 		if (caseid == 1) {
 			testDataCollection = Arrays.asList(
 			        new Object[][]{
@@ -68,14 +68,13 @@ public class Tool extends Application {
 			        );
 		}
 
-		
+		return testDataCollection;
 	}
 	
 	@Override
 	public void init() throws Exception {
 		// TODO Auto-generated method stub
 		super.init();
-		System.out.println("666");
 	}
 
 	public static void main(String[] args) {
@@ -86,7 +85,6 @@ public class Tool extends Application {
 //        runner.run(AddTest.class); 
 //        ResultRecorder recorder = listener.recorder;
 //        System.out.println(recorder);
-		System.out.println(12313);
 		Application.launch(Tool.class,args);
 //		launch(args);
 	}
