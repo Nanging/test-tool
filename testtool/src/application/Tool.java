@@ -46,7 +46,13 @@ public class Tool extends Application {
 	}
 	private ExcelReader reader = new ExcelReader();
 	
-	private static Collection<Object[]> testDataCollection;
+	private static Collection<Object[]> testDataCollection = Arrays.asList(
+	        new Object[][]{
+		        {3,1,2},
+		        {10,5,5},
+		        {6,4,2},
+		        {7,3,4}}
+	        );		;
 	
 	
 	public static Collection<Object[]> initTestData(String filename, int caseid) {

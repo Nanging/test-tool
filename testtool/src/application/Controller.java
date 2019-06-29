@@ -1,6 +1,8 @@
 package application;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,6 +43,10 @@ public class Controller {
 	
     @FXML  
     private TextArea  fileContent;  
+    
+    private Class<?> testClass;
+
+    private Method testMethod;
     
     @FXML
     private ComboBox<String> projects;
@@ -91,7 +97,7 @@ public class Controller {
 				System.out.println("new value : "+arg2);
 				switch (arg2) {
 				case "test":
-					ObservableList<String> classList = FXCollections.observableArrayList("TestClase");
+					ObservableList<String> classList = FXCollections.observableArrayList("AddTest");
 					classes.setItems(classList);
 					break;
 				default:
@@ -110,7 +116,8 @@ public class Controller {
 				System.out.println("old value : "+arg1);
 				System.out.println("new value : "+arg2);
 				switch (arg2) {
-				case "TestClase":
+				case "AddTest":
+					testClass = AddTest.class;
 					ObservableList<String> methodList = FXCollections.observableArrayList("add");
 					methods.setItems(methodList);
 					break;
@@ -142,26 +149,42 @@ public class Controller {
 			}
 		});
     	testcases.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
 				// TODO Auto-generated method stub
 				JUnitCore runner = new JUnitCore();
 		        ExecutionListener listener = new ExecutionListener();
 		        runner.addListener(listener);
-		        Collection<Object[]> testPara;
-				switch (arg2) {
-				case "testcase1":
-					System.out.println("testcase1");
-					Tool.setTestDataCollection(TestCase.getParament(0));
-					showParameter(TestCase.getParamentWithName(0));
-					break;
-				case "testcase2":
-					System.out.println("testcase2");
-					Tool.setTestDataCollection(TestCase.getAll());
-					break;
-				default:
-					break;
+				try {
+					switch (arg2) {
+					case "testcase1":
+						System.out.println("testcase1");
+						Tool.setTestDataCollection((Collection<Object[]>) testClass.getMethod("getParament", int.class).invoke(null, 0));
+						showParameter(AddTest.getParamentWithName(0));
+						break;
+					case "testcase2":
+						System.out.println("testcase2");
+						Tool.setTestDataCollection(AddTest.getAll());
+						break;
+					default:
+						break;
+					}
+				} catch (IllegalArgumentException
+						| SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+
 				runner.run(AddTest.class);
 				 ResultRecorder recorder = listener.recorder;
 				 System.out.println(recorder);
