@@ -2,7 +2,7 @@ package testclass;
 
 public class Calendar {
 	public static String calendar(int year,int month,int day) {
-		System.out.print("请输入:"+ year + " " + month + " " + day + "  输出:");
+		System.out.print("输入:"+ year + " " + month + " " + day + "  输出:");
 		if(year < 1000 || year > 2519) {
 			System.out.println("年的范围:1000-2519之间");
 			return "年的范围:1000-2519之间";

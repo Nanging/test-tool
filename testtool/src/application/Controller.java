@@ -32,6 +32,8 @@ import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import testcase.AddTest;
 import testcase.CalendarTest;
+import testcase.SaleSystemTest;
+import testcase.TelTest;
 import testcase.TestCase;
 import testcase.TriangleTest;
 
@@ -88,8 +90,7 @@ public class Controller {
      * 初始化
      */
     public void init() {
-    	ObservableList<String> list = FXCollections.observableArrayList("test",
-    	        "two");
+    	ObservableList<String> list = FXCollections.observableArrayList("test");
     	fileContent.setEditable(false);
 //    	projects.getItems().setAll(list);
     	projects.setItems(list);
@@ -99,10 +100,13 @@ public class Controller {
 				// TODO Auto-generated method stub
 				System.out.println("old value : "+arg1);
 				System.out.println("new value : "+arg2);
+				testcases.setItems(FXCollections.observableArrayList());
+				methods.setItems(FXCollections.observableArrayList());
+				classes.setItems(FXCollections.observableArrayList());
 				switch (arg2) {
 				case "test":
 					ObservableList<String> classList = 
-						FXCollections.observableArrayList("AddTest","TriangleTest","CalendarTest");
+						FXCollections.observableArrayList("AddTest","TriangleTest","CalendarTest","SaleSystemTest","TelTest");
 					classes.setItems(classList);
 					break;
 				default:
@@ -140,6 +144,18 @@ public class Controller {
 					testClassName = "testcase.CalendarTest";
 					testClass = CalendarTest.class;
 					methodList = FXCollections.observableArrayList("calendar");
+					methods.setItems(methodList);
+					break;
+				case "SaleSystemTest":
+					testClassName = "testcase.SaleSystemTest";
+					testClass = SaleSystemTest.class;
+					methodList = FXCollections.observableArrayList("sell");
+					methods.setItems(methodList);
+					break;
+				case "TelTest":
+					testClassName = "testcase.TelTest";
+					testClass = TelTest.class;
+					methodList = FXCollections.observableArrayList("calculate");
 					methods.setItems(methodList);
 					break;
 				default:
