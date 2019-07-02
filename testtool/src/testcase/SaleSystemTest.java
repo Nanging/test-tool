@@ -164,6 +164,38 @@ public class SaleSystemTest  implements TestCase {
 				    		add(new Sale(35, 40, 91));
 				    		add(new Sale(-1, 0, 0));
 				        }}},
+				        
+				        {
+				        	50.0,
+				        new ArrayList<Sale>() {{
+				    		add(new Sale(5, 5, 5));
+				    		add(new Sale(-1, 0, 0));
+				        }}},
+				        {
+				        	100.0,
+				        new ArrayList<Sale>() {{
+				    		add(new Sale(10, 10, 10));
+				    		add(new Sale(-1, 0, 0));
+				        }}},
+				        
+				        {
+				        	210.0,
+				        new ArrayList<Sale>() {{
+				    		add(new Sale(14, 14, 14));
+				    		add(new Sale(-1, 0, 0));
+				        }}},
+				        {
+				        	270.0,
+				        new ArrayList<Sale>() {{
+				    		add(new Sale(18, 18, 18));
+				    		add(new Sale(-1, 0, 0));
+				        }}},
+				        {
+				        	400.0,
+				        new ArrayList<Sale>() {{
+				    		add(new Sale(20, 20, 20));
+				    		add(new Sale(-1, 0, 0));
+				        }}},
 			        }
 			        );
 		}
