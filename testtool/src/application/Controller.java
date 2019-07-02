@@ -31,6 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import testcase.AddTest;
+import testcase.CalendarTest;
 import testcase.TestCase;
 import testcase.TriangleTest;
 
@@ -100,7 +101,8 @@ public class Controller {
 				System.out.println("new value : "+arg2);
 				switch (arg2) {
 				case "test":
-					ObservableList<String> classList = FXCollections.observableArrayList("AddTest","TriangleTest");
+					ObservableList<String> classList = 
+						FXCollections.observableArrayList("AddTest","TriangleTest","CalendarTest");
 					classes.setItems(classList);
 					break;
 				default:
@@ -118,6 +120,8 @@ public class Controller {
 				// TODO Auto-generated method stub
 				System.out.println("old value : "+arg1);
 				System.out.println("new value : "+arg2);
+				testcases.setItems(FXCollections.observableArrayList());
+				methods.setItems(FXCollections.observableArrayList());
 				ObservableList<String> methodList;
 				switch (arg2) {
 				case "AddTest":
@@ -132,9 +136,15 @@ public class Controller {
 					methodList = FXCollections.observableArrayList("triangle");
 					methods.setItems(methodList);
 					break;
+				case "CalendarTest":
+					testClassName = "testcase.CalendarTest";
+					testClass = CalendarTest.class;
+					methodList = FXCollections.observableArrayList("calendar");
+					methods.setItems(methodList);
+					break;
 				default:
-					methods.setItems(FXCollections.observableArrayList());
 					testcases.setItems(FXCollections.observableArrayList());
+					methods.setItems(FXCollections.observableArrayList());
 					break;
 				}
 				
@@ -146,21 +156,24 @@ public class Controller {
 				// TODO Auto-generated method stub
 				System.out.println("old value : "+arg1);
 				System.out.println("new value : "+arg2);
-				ObservableList<String> methodList;
-				switch (arg2) {
-				case "add":
-					methodList = FXCollections.observableArrayList("testcase1");
-					testcases.setItems(methodList);
-					break;
-				case "triangle":
-					methodList = FXCollections.observableArrayList("testcase1");
-					testcases.setItems(methodList);
-					break;
-				default:
-					testcases.setItems(FXCollections.observableArrayList());
-					break;
-				}
-				
+				testcases.setItems(FXCollections.observableArrayList());
+				ObservableList<String> caseList;
+				try {
+					if (arg2!= null) {
+						int caseNumber = (int) Class.forName(testClassName).getMethod("getTestCaseNumber").invoke(null);
+						String[] cases = new String[caseNumber];
+						for (int i = 0; i < caseNumber; i++) {
+							cases[i] = "testCase "+(i+1);
+						}
+						caseList = FXCollections.observableArrayList(Arrays.asList(cases));
+						testcases.setItems(caseList);
+					} else {
+						testcases.setItems(FXCollections.observableArrayList());
+					}
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+						| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}			
 			}
 		});
     	testcases.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -168,51 +181,30 @@ public class Controller {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
 				// TODO Auto-generated method stub
-				JUnitCore runner = new JUnitCore();
-		        ExecutionListener listener = new ExecutionListener();
-		        runner.addListener(listener);
-				try {
-					switch (arg2) {
-					case "testcase1":
-						System.out.println(testClass);
-						try {
-							Tool.setTestDataCollection((Collection<Object[]>) Class.forName(testClassName).getMethod("getParament",int.class).invoke(null, 1));
-//							Collection<Object[]> sCollection = Tool.getTestDataCollection();
-//							for (Object[] objs : sCollection) {
-//								for (Object obj : objs) {
-//									System.out.println(obj);
-//								}
-//							}
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException
-								| ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						break;
-//					case "testcase2":
-//						System.out.println("testcase2");
-//						Tool.setTestDataCollection(AddTest.getAll());
-//						break;
-					default:
-						break;
-					}
-				} catch (IllegalArgumentException
-						| SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (arg2 == null) {
+					return;
 				}
-
-				runner.run(testClass);
-				 ResultRecorder recorder = listener.recorder;
-				 fileContent.setText(Tool.getResult());
+		        if (arg2.startsWith("testCase")) {
+					JUnitCore runner = new JUnitCore();
+			        ExecutionListener listener = new ExecutionListener();
+			        runner.addListener(listener);
+					int caseid = Integer.parseInt(arg2.split(" ")[1]);
+					System.out.println(testClass);
+					try {
+						Tool.setTestDataCollection((Collection<Object[]>) Class.forName(testClassName).getMethod("getParament",int.class).invoke(null, caseid));
+					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException
+							| ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					runner.run(testClass);
+					 ResultRecorder recorder = listener.recorder;
+					 fileContent.setText(Tool.getResult());
+				} 
 			}
 		});
 	}
-    
-    public void testForAdd() {
-		
-	}
-    
+
 	public static void onChanged(ListChangeListener.Change<? extends String> change) {
 		while (change.next()) {
 			if (change.wasPermutated()) {

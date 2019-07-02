@@ -19,7 +19,7 @@ import testclass.Triangle;
 public class TriangleTest implements TestCase{
 	@Parameters
     public static Collection<Object[]> initTestData(){
-    	return getParament(0);
+    	return Tool.getTestDataCollection();
     }
 	private String result;
     private float a;
@@ -39,7 +39,7 @@ public class TriangleTest implements TestCase{
 	}
 
 	@Test
-	public final void testAdd() {
+	public final void testTriangle() {
 		assertEquals(result, Triangle.triangle(a, b, c));
 		
 	}

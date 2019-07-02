@@ -37,11 +37,6 @@ public class Tool extends Application {
 			Controller controller =  fxmlLoader.getController();
 			controller.init();
 			primaryStage.show();
-//			BorderPane root = new BorderPane();
-//			Scene scene = new Scene(root,400,400);
-//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//			primaryStage.setScene(scene);
-//			primaryStage.show(); 
 		} catch(Exception e) { 
 			e.printStackTrace();
 		}
@@ -74,13 +69,7 @@ public class Tool extends Application {
 //        ResultRecorder recorder = listener.recorder;
 //        System.out.println(recorder);
 		
-		bytes.toString();
-		ps = new PrintStream(bytes);
-//		ps.print("5555555");
-		System.setOut(ps);
-//		System.out.println("1231");
-//		System.setOut(System.out);
-//		System.out.println(bytes);
+
 		Application.launch(Tool.class,args);
 //		launch(args);
 	}
@@ -92,6 +81,10 @@ public class Tool extends Application {
 	}
 
 	public static void setTestDataCollection(Collection<Object[]> testDataCollection) {
+		bytes = new ByteArrayOutputStream();
+		bytes.toString();
+		ps = new PrintStream(bytes);
+		System.setOut(ps);
 		Tool.testDataCollection = testDataCollection;
 	}
 }
