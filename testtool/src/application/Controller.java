@@ -32,6 +32,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import testcase.AddTest;
 import testcase.TestCase;
+import testcase.TriangleTest;
 
 public class Controller {
 	@FXML  
@@ -43,6 +44,8 @@ public class Controller {
 	
     @FXML  
     private TextArea  fileContent;  
+    
+    private String testClassName;
     
     private Class<?> testClass;
 
@@ -97,7 +100,7 @@ public class Controller {
 				System.out.println("new value : "+arg2);
 				switch (arg2) {
 				case "test":
-					ObservableList<String> classList = FXCollections.observableArrayList("AddTest");
+					ObservableList<String> classList = FXCollections.observableArrayList("AddTest","TriangleTest");
 					classes.setItems(classList);
 					break;
 				default:
@@ -115,10 +118,18 @@ public class Controller {
 				// TODO Auto-generated method stub
 				System.out.println("old value : "+arg1);
 				System.out.println("new value : "+arg2);
+				ObservableList<String> methodList;
 				switch (arg2) {
 				case "AddTest":
+					testClassName = "testcase.AddTest";
 					testClass = AddTest.class;
-					ObservableList<String> methodList = FXCollections.observableArrayList("add");
+					methodList = FXCollections.observableArrayList("add");
+					methods.setItems(methodList);
+					break;
+				case "TriangleTest":
+					testClassName = "testcase.TriangleTest";
+					testClass = TriangleTest.class;
+					methodList = FXCollections.observableArrayList("triangle");
 					methods.setItems(methodList);
 					break;
 				default:
@@ -135,10 +146,14 @@ public class Controller {
 				// TODO Auto-generated method stub
 				System.out.println("old value : "+arg1);
 				System.out.println("new value : "+arg2);
+				ObservableList<String> methodList;
 				switch (arg2) {
 				case "add":
-					ObservableList<String> methodList = FXCollections.observableArrayList("testcase1",
-			    	        "testcase2");
+					methodList = FXCollections.observableArrayList("testcase1");
+					testcases.setItems(methodList);
+					break;
+				case "triangle":
+					methodList = FXCollections.observableArrayList("testcase1");
 					testcases.setItems(methodList);
 					break;
 				default:
@@ -159,14 +174,25 @@ public class Controller {
 				try {
 					switch (arg2) {
 					case "testcase1":
-						System.out.println("testcase1");
-						Tool.setTestDataCollection((Collection<Object[]>) testClass.getMethod("getParament", int.class).invoke(null, 0));
-						showParameter(AddTest.getParamentWithName(0));
+						System.out.println(testClass);
+						try {
+							Tool.setTestDataCollection((Collection<Object[]>) Class.forName(testClassName).getMethod("getParament",int.class).invoke(null, 1));
+//							Collection<Object[]> sCollection = Tool.getTestDataCollection();
+//							for (Object[] objs : sCollection) {
+//								for (Object obj : objs) {
+//									System.out.println(obj);
+//								}
+//							}
+						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException
+								| ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						break;
-					case "testcase2":
-						System.out.println("testcase2");
-						Tool.setTestDataCollection(AddTest.getAll());
-						break;
+//					case "testcase2":
+//						System.out.println("testcase2");
+//						Tool.setTestDataCollection(AddTest.getAll());
+//						break;
 					default:
 						break;
 					}
@@ -174,21 +200,11 @@ public class Controller {
 						| SecurityException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 
-				runner.run(AddTest.class);
+				runner.run(testClass);
 				 ResultRecorder recorder = listener.recorder;
-				 System.out.println(recorder);
-				 fileContent.setText(listener.record.toString());
+				 fileContent.setText(Tool.getResult());
 			}
 		});
 	}

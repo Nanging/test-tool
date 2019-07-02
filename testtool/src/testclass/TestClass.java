@@ -1,4 +1,4 @@
-package testcase;
+package testclass;
 
 public class TestClass {
 

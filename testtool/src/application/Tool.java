@@ -1,5 +1,7 @@
 package application;
 	
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,6 +48,8 @@ public class Tool extends Application {
 	}
 	private ExcelReader reader = new ExcelReader();
 	
+	private static PrintStream ps = null;
+	private static ByteArrayOutputStream bytes=new ByteArrayOutputStream();
 	private static Collection<Object[]> testDataCollection = Arrays.asList(
 	        new Object[][]{
 		        {3,1,2},
@@ -54,28 +58,6 @@ public class Tool extends Application {
 		        {7,3,4}}
 	        );		;
 	
-	
-	public static Collection<Object[]> initTestData(String filename, int caseid) {
-		if (caseid == 1) {
-			testDataCollection = Arrays.asList(
-			        new Object[][]{
-				        {3,1,2},
-				        {10,5,5},
-				        {6,4,2},
-				        {7,3,4}}
-			        );		
-		} else {
-			testDataCollection = Arrays.asList(
-			        new Object[][]{
-				        {3,1,2},
-				        {7,5,5},
-				        {9,4,2},
-				        {7,3,4}}
-			        );
-		}
-
-		return testDataCollection;
-	}
 	
 	@Override
 	public void init() throws Exception {
@@ -91,10 +73,20 @@ public class Tool extends Application {
 //        runner.run(AddTest.class); 
 //        ResultRecorder recorder = listener.recorder;
 //        System.out.println(recorder);
+		
+		bytes.toString();
+		ps = new PrintStream(bytes);
+//		ps.print("5555555");
+		System.setOut(ps);
+//		System.out.println("1231");
+//		System.setOut(System.out);
+//		System.out.println(bytes);
 		Application.launch(Tool.class,args);
 //		launch(args);
 	}
-	
+	public static String getResult() {
+		return bytes.toString();
+	}
 	public static Collection<Object[]> getTestDataCollection() {
 		return testDataCollection;
 	}
