@@ -90,7 +90,7 @@ public class Controller {
      * 初始化
      */
     public void init() {
-    	ObservableList<String> list = FXCollections.observableArrayList("test");
+    	ObservableList<String> list = FXCollections.observableArrayList("Test");
     	fileContent.setEditable(false);
 //    	projects.getItems().setAll(list);
     	projects.setItems(list);
@@ -103,10 +103,15 @@ public class Controller {
 				testcases.setItems(FXCollections.observableArrayList());
 				methods.setItems(FXCollections.observableArrayList());
 				classes.setItems(FXCollections.observableArrayList());
+				ObservableList<String> classList;
 				switch (arg2) {
-				case "test":
-					ObservableList<String> classList = 
-						FXCollections.observableArrayList("AddTest","TriangleTest","CalendarTest","SaleSystemTest","TelTest");
+				case "Test":
+					classList = 
+						FXCollections.observableArrayList("TriangleTest","CalendarTest","SaleSystemTest","TelTest");
+					classes.setItems(classList);
+					break;
+				case "demo":
+					classList = FXCollections.observableArrayList("AddTest");
 					classes.setItems(classList);
 					break;
 				default:
